@@ -2,39 +2,40 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ─── Premium Light Theme Design Tokens ──────────────────────────────────── */
+/* ─── Premium Dark Terminal Theme Design Tokens ──────────────────────────── */
 :root {
-  --bg-primary: #ffffff;
-  --bg-secondary: #f8fafc;
-  --bg-tertiary: #f1f5f9;
-  --bg-card: #ffffff;
-  --bg-sidebar: #f8fafc;
-  --bg-hover: #f1f5f9;
-  --bg-active: #eff6ff;
-  --bg-accent: #2563eb;
-  --bg-accent-light: #dbeafe;
+  --bg-primary: #0c101b;
+  --bg-secondary: #070b13;
+  --bg-tertiary: #111625;
+  --bg-card: rgba(12, 16, 27, 0.8);
+  --bg-sidebar: #070a13;
+  --bg-hover: rgba(59, 130, 246, 0.08);
+  --bg-active: #172554;
+  --bg-accent: #3b82f6;
+  --bg-accent-light: #1e3a8a;
 
-  --text-primary: #0f172a;
-  --text-secondary: #475569;
-  --text-tertiary: #94a3b8;
-  --text-accent: #2563eb;
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-tertiary: #64748b;
+  --text-accent: #3b82f6;
   --text-on-accent: #ffffff;
 
-  --border-primary: #e2e8f0;
-  --border-secondary: #f1f5f9;
-  --border-accent: #bfdbfe;
+  --border-primary: #1e293b;
+  --border-secondary: #111b27;
+  --border-accent: #1e3a8a;
 
-  --green: #16a34a;
-  --green-bg: #f0fdf4;
-  --green-border: #bbf7d0;
-  --red: #dc2626;
-  --red-bg: #fef2f2;
-  --red-border: #fecaca;
+  --green: #10b981;
+  --green-bg: rgba(16, 185, 129, 0.12);
+  --green-border: rgba(16, 185, 129, 0.25);
+  --red: #f43f5e;
+  --red-bg: rgba(244, 63, 94, 0.12);
+  --red-border: rgba(244, 63, 94, 0.25);
 
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.06), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.06), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
-  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.03);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 18px rgba(0, 0, 0, 0.35), 0 2px 6px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 12px 30px rgba(0, 0, 0, 0.5), 0 4px 12px rgba(0, 0, 0, 0.3);
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-premium: 0 8px 32px rgba(0, 0, 0, 0.2);
 
   --radius-sm: 6px;
   --radius-md: 8px;
@@ -62,22 +63,22 @@ body {
 }
 
 .scrollbar-thin::-webkit-scrollbar-thumb {
-  background: rgba(148, 163, 184, 0.3);
+  background: rgba(148, 163, 184, 0.2);
   border-radius: 10px;
 }
 
 .scrollbar-thin::-webkit-scrollbar-thumb:hover {
-  background: rgba(148, 163, 184, 0.5);
+  background: rgba(148, 163, 184, 0.4);
 }
 
 /* ─── Price Flash Animations ─────────────────────────────────────────────── */
 @keyframes flash-green {
-  0% { background-color: rgba(22, 163, 74, 0.2); }
+  0% { background-color: rgba(16, 185, 129, 0.25); }
   100% { background-color: transparent; }
 }
 
 @keyframes flash-red {
-  0% { background-color: rgba(220, 38, 38, 0.2); }
+  0% { background-color: rgba(244, 63, 94, 0.25); }
   100% { background-color: transparent; }
 }
 
@@ -112,7 +113,7 @@ body {
 /* ─── Pulse dot ──────────────────────────────────────────────────────────── */
 @keyframes pulse-dot {
   0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.5; transform: scale(1.5); }
+  50% { opacity: 0.5; transform: scale(1.4); }
 }
 
 .animate-pulse-dot {
@@ -142,31 +143,63 @@ body {
 
 /* ─── Premium Table Styles ───────────────────────────────────────────────── */
 .stock-table-header {
-  background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
-  border-bottom: 2px solid #e2e8f0;
+  background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-tertiary) 100%);
+  border-bottom: 2px solid var(--border-primary);
 }
 
 .stock-row-hover:hover {
-  background-color: #f8fafc;
+  background-color: var(--bg-hover);
 }
 
 .stock-row-active {
-  background-color: #eff6ff;
-  border-left: 3px solid #2563eb;
+  background-color: var(--bg-active);
+  border-left: 3px solid var(--bg-accent);
 }
 
 /* ─── Premium Card Styles ────────────────────────────────────────────────── */
 .premium-card {
-  background: white;
-  border: 1px solid #e2e8f0;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-primary);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card);
-  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
 }
 
 .premium-card:hover {
   box-shadow: var(--shadow-md);
-  border-color: #cbd5e1;
+  border-color: var(--border-accent);
+}
+
+/* ─── Premium Glassmorphic Cards ─────────────────────────────────────────── */
+.premium-glass-card {
+  background: rgba(12, 16, 27, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: var(--shadow-premium);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.premium-glass-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 38px rgba(0, 0, 0, 0.35);
+  border-color: rgba(59, 130, 246, 0.25);
+}
+
+/* ─── Gradient Accent Border ─────────────────────────────────────────────── */
+.gradient-accent {
+  position: relative;
+}
+
+.gradient-accent::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #3b82f6 0%, #6366f1 50%, #8b5cf6 100%);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
 }
 
 /* ─── Navigation Active States ───────────────────────────────────────────── */
@@ -191,4 +224,18 @@ select.premium-select {
   background-repeat: no-repeat;
   background-position: right 10px center;
   background-size: 14px;
+}
+
+/* Ensure pinned cells follow parent row background changes */
+[role="row"]:hover [role="gridcell"] {
+  background-color: var(--bg-hover) !important;
+}
+
+[role="row"][aria-selected="true"] [role="gridcell"] {
+  background-color: var(--bg-active) !important;
+}
+
+/* Webpack build fixes for dark modes */
+.stock-table-header [role="columnheader"] {
+  background: var(--bg-primary);
 }

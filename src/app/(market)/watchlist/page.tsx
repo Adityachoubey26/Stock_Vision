@@ -4,9 +4,11 @@ import React from "react";
 import { WatchlistTable } from "@/features/watchlist/components/watchlist-table";
 import { Star } from "lucide-react";
 
+export const dynamic = "force-dynamic";
+
 export default function WatchlistPage() {
   return (
-    <div className="flex-1 bg-[#f8fafc] p-6">
+    <div className="flex-1 bg-slate-50 p-6">
       <div className="container mx-auto max-w-7xl space-y-4">
         {/* Page Header */}
         <div className="flex items-center gap-3">

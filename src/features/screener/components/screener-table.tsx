@@ -4,8 +4,6 @@ import React, { useRef, useMemo, useState, useEffect, useCallback } from "react"
 import {
   useReactTable,
   getCoreRowModel,
-  getSortingRowModel,
-  getFilteredRowModel,
   flexRender,
   SortingState as TanStackSorting,
 } from "@tanstack/react-table";
@@ -13,6 +11,7 @@ import { useVirtualizer } from "@tanstack/react-virtual";
 import { useStocksQuery } from "../hooks/use-stocks-query";
 import { useScreenerColumns } from "../hooks/use-screener-columns";
 import { useScreenerStore } from "@/store/use-screener-store";
+import { useShallow } from "zustand/react/shallow";
 import {
   ArrowUpDown,
   ArrowUp,
@@ -33,7 +32,18 @@ export function ScreenerTable() {
     setActiveSymbol,
     searchQuery,
     setSearchQuery,
-  } = useScreenerStore();
+    setDetailPanelOpen,
+  } = useScreenerStore(
+    useShallow((state) => ({
+      sorting: state.sorting,
+      setSorting: state.setSorting,
+      activeSymbol: state.activeSymbol,
+      setActiveSymbol: state.setActiveSymbol,
+      searchQuery: state.searchQuery,
+      setSearchQuery: state.setSearchQuery,
+      setDetailPanelOpen: state.setDetailPanelOpen,
+    }))
+  );
 
   const tableData = useMemo(() => data?.data || [], [data]);
   const totalRows = data?.total || 0;
@@ -151,8 +161,9 @@ export function ScreenerTable() {
     (index: number, symbol: string) => {
       setFocusedRowIndex(index);
       setActiveSymbol(symbol);
+      setDetailPanelOpen(true);
     },
-    [setActiveSymbol]
+    [setActiveSymbol, setDetailPanelOpen]
   );
 
   // ── Column width configuration ────────────────────────────────────────
@@ -329,6 +340,7 @@ export function ScreenerTable() {
                           }
                         : {
                             flexBasis: width,
+                            flexShrink: 0,
                             flexGrow: header.id === "name" ? 2 : 1,
                           }),
                     }}
@@ -418,6 +430,7 @@ export function ScreenerTable() {
                                 }
                               : {
                                   flexBasis: width,
+                                  flexShrink: 0,
                                   flexGrow:
                                     cell.column.id === "name" ? 2 : 1,
                                 }),

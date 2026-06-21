@@ -2,6 +2,12 @@
 
 import React, { useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useWebSocketSimulation } from "@/hooks/use-websocket-simulation";
+
+function RealtimeSimulator() {
+  useWebSocketSimulation();
+  return null;
+}
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(
@@ -18,7 +24,9 @@ export default function Providers({ children }: { children: React.ReactNode }) {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <RealtimeSimulator />
       {children}
     </QueryClientProvider>
   );
 }
+

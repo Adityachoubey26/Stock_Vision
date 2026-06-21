@@ -2,14 +2,15 @@
 
 import React from "react";
 import { useStockDetail } from "../hooks/use-stock-detail";
-import { formatCurrency, formatMarketCap, formatVolume } from "@/lib/utils";
+import { formatMarketCap, formatVolume } from "@/lib/utils";
+import { StockChart } from "./stock-chart";
+import { useRealtimeStore } from "@/store/use-realtime-store";
 import {
   TrendingUp,
   TrendingDown,
   Info,
   Building2,
   BarChart3,
-  Activity,
   Loader2,
 } from "lucide-react";
 
@@ -46,6 +47,9 @@ export function StockDetailPanel({ symbol }: StockDetailPanelProps) {
   const { data, isFetching, isLoading } = useStockDetail(symbol);
   const stock = data?.stock;
 
+  // Retrieve live price information from the realtime store
+  const liveData = useRealtimeStore((state) => (stock ? state.prices[stock.symbol] : undefined));
+  
   if (!symbol) {
     return (
       <div className="flex flex-col items-center justify-center text-center h-full text-slate-400 p-6">
@@ -71,16 +75,20 @@ export function StockDetailPanel({ symbol }: StockDetailPanelProps) {
 
   if (!stock) return null;
 
+  const price = liveData?.price ?? stock.price;
+  const change = liveData?.change ?? stock.change;
+  const changePercent = liveData?.changePercent ?? stock.changePercent;
+
   const changeColor =
-    stock.changePercent > 0
+    changePercent > 0
       ? "text-green-600"
-      : stock.changePercent < 0
+      : changePercent < 0
       ? "text-red-600"
       : "text-slate-500";
 
   const priceRange52W =
     stock.high52Week - stock.low52Week > 0
-      ? ((stock.price - stock.low52Week) /
+      ? ((price - stock.low52Week) /
           (stock.high52Week - stock.low52Week)) *
         100
       : 50;
@@ -125,7 +133,7 @@ export function StockDetailPanel({ symbol }: StockDetailPanelProps) {
         <div className="flex items-baseline gap-2">
           <span className="text-2xl font-bold font-mono tracking-tight text-slate-900 tabular-nums">
             ₹
-            {stock.price.toLocaleString("en-IN", {
+            {price.toLocaleString("en-IN", {
               minimumFractionDigits: 2,
               maximumFractionDigits: 2,
             })}
@@ -135,16 +143,16 @@ export function StockDetailPanel({ symbol }: StockDetailPanelProps) {
           <span
             className={`inline-flex items-center gap-1 text-sm font-semibold font-mono ${changeColor}`}
           >
-            {stock.changePercent > 0 ? (
+            {changePercent > 0 ? (
               <TrendingUp className="w-3.5 h-3.5" />
-            ) : stock.changePercent < 0 ? (
+            ) : changePercent < 0 ? (
               <TrendingDown className="w-3.5 h-3.5" />
             ) : null}
-            {stock.changePercent > 0 ? "+" : ""}
-            {stock.changePercent.toFixed(2)}%
+            {changePercent > 0 ? "+" : ""}
+            {changePercent.toFixed(2)}%
           </span>
           <span className={`text-xs font-mono ${changeColor}`}>
-            ({stock.change > 0 ? "+" : ""}₹{stock.change.toFixed(2)})
+            ({change > 0 ? "+" : ""}₹{change.toFixed(2)})
           </span>
         </div>
         <p className="text-[10px] text-slate-400 font-mono">
@@ -228,25 +236,8 @@ export function StockDetailPanel({ symbol }: StockDetailPanelProps) {
         </div>
       </div>
 
-      {/* ── Chart Placeholder ─────────────────────────────────────────── */}
-      <div className="flex-1 min-h-[120px] bg-slate-50 border border-slate-200 rounded-xl p-4 flex flex-col justify-center items-center text-center mt-1 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-5 pointer-events-none">
-          <div className="grid grid-cols-6 grid-rows-4 h-full">
-            {Array.from({ length: 24 }).map((_, i) => (
-              <div key={i} className="border border-slate-400" />
-            ))}
-          </div>
-        </div>
-        <div className="relative z-10 space-y-1.5">
-          <Activity className="w-5 h-5 text-blue-400 mx-auto animate-pulse" />
-          <span className="block text-[11px] font-semibold text-slate-500">
-            Chart Panel
-          </span>
-          <p className="text-[10px] text-slate-400 max-w-[180px] mx-auto">
-            TradingView Lightweight Charts integration coming soon.
-          </p>
-        </div>
-      </div>
+      {/* ── Real-Time Candlestick Chart ───────────────────────────────── */}
+      <StockChart symbol={stock.symbol} />
     </div>
   );
 }

@@ -11,7 +11,7 @@ export default function ScreenerError({
   reset: () => void;
 }) {
   return (
-    <div className="flex-1 flex items-center justify-center h-[calc(100vh-57px)] bg-[#f8fafc]">
+    <div className="flex-1 flex items-center justify-center h-full bg-slate-50">
       <div className="flex flex-col items-center gap-4 max-w-sm text-center animate-fade-in">
         <div className="p-3 bg-red-50 rounded-xl border border-red-200">
           <AlertTriangle className="w-6 h-6 text-red-500" />

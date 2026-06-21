@@ -1,10 +1,83 @@
 import { useMemo } from "react";
 import { ColumnDef } from "@tanstack/react-table";
 import { Stock } from "@/types/stock";
-import { formatCompactNumber, formatCurrency, formatPercentage, formatVolume, formatMarketCap } from "@/lib/utils";
+import { formatPercentage, formatVolume, formatMarketCap } from "@/lib/utils";
 import { useWatchlist } from "@/features/watchlist/hooks/use-watchlist";
 import { Star } from "lucide-react";
 import React from "react";
+import { useRealtimeStore } from "@/store/use-realtime-store";
+
+function LivePriceCell({
+  symbol,
+  initialPrice,
+  initialChange,
+}: {
+  symbol: string;
+  initialPrice: number;
+  initialChange: number;
+}) {
+  const liveData = useRealtimeStore((state) => state.prices[symbol]);
+  const price = liveData?.price ?? initialPrice;
+  const change = liveData?.change ?? initialChange;
+  const flash = liveData?.flash ?? null;
+
+  const isUp = change >= 0;
+
+  const flashClass =
+    flash === "up" ? "flash-up" : flash === "down" ? "flash-down" : "";
+  const colorClass =
+    flash === "up"
+      ? "text-emerald-600 font-bold"
+      : flash === "down"
+      ? "text-rose-600 font-bold"
+      : isUp
+      ? "text-green-600"
+      : "text-red-600";
+
+  return (
+    <span
+      className={`font-mono text-xs font-semibold tabular-nums px-1 py-0.5 rounded transition-all duration-300 ${flashClass} ${colorClass}`}
+    >
+      ₹
+      {price.toLocaleString("en-IN", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })}
+    </span>
+  );
+}
+
+function LiveChangeCell({
+  symbol,
+  initialChangePercent,
+}: {
+  symbol: string;
+  initialChangePercent: number;
+}) {
+  const liveData = useRealtimeStore((state) => state.prices[symbol]);
+  const cp = liveData?.changePercent ?? initialChangePercent;
+  const flash = liveData?.flash ?? null;
+
+  const isUp = cp > 0;
+  const isDown = cp < 0;
+
+  const flashClass =
+    flash === "up" ? "flash-up" : flash === "down" ? "flash-down" : "";
+  const bgClass = isUp
+    ? "text-green-700 bg-green-50"
+    : isDown
+    ? "text-red-700 bg-red-50"
+    : "text-slate-500 bg-slate-50";
+
+  return (
+    <span
+      className={`inline-flex items-center gap-0.5 font-semibold font-mono text-xs tabular-nums px-1.5 py-0.5 rounded transition-all duration-300 ${flashClass} ${bgClass}`}
+    >
+      {isUp ? "▲" : isDown ? "▼" : ""} {formatPercentage(cp)}
+    </span>
+  );
+}
+
 
 export function useScreenerColumns() {
   const { symbols, toggleSymbol } = useWatchlist();
@@ -113,15 +186,13 @@ export function useScreenerColumns() {
         accessorKey: "price",
         header: "Price",
         cell: ({ row }) => {
-          const { price, change } = row.original;
+          const { price, change, symbol } = row.original;
           return (
-            <span
-              className={`font-mono text-xs font-semibold tabular-nums ${
-                change > 0 ? "text-green-600" : change < 0 ? "text-red-600" : "text-slate-600"
-              }`}
-            >
-              ₹{price.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-            </span>
+            <LivePriceCell
+              symbol={symbol}
+              initialPrice={price}
+              initialChange={change}
+            />
           );
         },
         size: 110,
@@ -131,21 +202,12 @@ export function useScreenerColumns() {
         accessorKey: "changePercent",
         header: "Chg %",
         cell: ({ row }) => {
-          const cp = row.original.changePercent;
-          const isUp = cp > 0;
-          const isDown = cp < 0;
+          const { changePercent, symbol } = row.original;
           return (
-            <span
-              className={`inline-flex items-center gap-0.5 font-semibold font-mono text-xs tabular-nums px-1.5 py-0.5 rounded ${
-                isUp
-                  ? "text-green-700 bg-green-50"
-                  : isDown
-                  ? "text-red-700 bg-red-50"
-                  : "text-slate-500 bg-slate-50"
-              }`}
-            >
-              {isUp ? "▲" : isDown ? "▼" : ""} {formatPercentage(cp)}
-            </span>
+            <LiveChangeCell
+              symbol={symbol}
+              initialChangePercent={changePercent}
+            />
           );
         },
         size: 100,

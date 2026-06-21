@@ -2,11 +2,11 @@
 
 import React from "react";
 import { useScreenerStore } from "@/store/use-screener-store";
+import { ScreenerFilters as ScreenerFiltersType } from "@/types/stock";
 import {
   SlidersHorizontal,
   RotateCcw,
   X,
-  ChevronDown,
   HelpCircle,
 } from "lucide-react";
 
@@ -48,6 +48,12 @@ const INDUSTRIES_BY_SECTOR: Record<string, string[]> = {
 };
 
 // ─── Range Input Component ──────────────────────────────────────────────────
+function getFilterValue(filters: ScreenerFiltersType, key: keyof ScreenerFiltersType): string | number {
+  const val = filters[key];
+  if (val === null || val === undefined) return "";
+  return val;
+}
+
 function RangeInput({
   label,
   minKey,
@@ -56,16 +62,16 @@ function RangeInput({
   step,
 }: {
   label: string;
-  minKey: string;
-  maxKey: string;
+  minKey: keyof ScreenerFiltersType;
+  maxKey: keyof ScreenerFiltersType;
   tooltip?: string;
   step?: string;
 }) {
   const { filters, setFilter } = useScreenerStore();
 
-  const handleChange = (key: string, value: string) => {
+  const handleChange = (key: keyof ScreenerFiltersType, value: string) => {
     const parsed = value === "" ? null : parseFloat(value);
-    setFilter(key as keyof typeof filters, parsed as never);
+    setFilter(key, parsed as never);
   };
 
   return (
@@ -80,23 +86,29 @@ function RangeInput({
           </span>
         )}
       </div>
-      <div className="grid grid-cols-2 gap-2">
-        <input
-          type="number"
-          step={step || "any"}
-          placeholder="Min"
-          value={(filters as Record<string, unknown>)[minKey] as string ?? ""}
-          onChange={(e) => handleChange(minKey, e.target.value)}
-          className="w-full bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs text-slate-700 font-mono placeholder-slate-300 focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition-all"
-        />
-        <input
-          type="number"
-          step={step || "any"}
-          placeholder="Max"
-          value={(filters as Record<string, unknown>)[maxKey] as string ?? ""}
-          onChange={(e) => handleChange(maxKey, e.target.value)}
-          className="w-full bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs text-slate-700 font-mono placeholder-slate-300 focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition-all"
-        />
+      <div className="flex flex-col gap-1">
+        <div className="relative flex items-center">
+          <span className="absolute left-2 text-[9px] text-slate-400 font-mono select-none">Min</span>
+          <input
+            type="number"
+            step={step || "any"}
+            placeholder="Min"
+            value={getFilterValue(filters, minKey)}
+            onChange={(e) => handleChange(minKey, e.target.value)}
+            className="w-full bg-white border border-slate-200 rounded-lg pl-8 pr-2 py-1 text-xs text-slate-750 font-mono placeholder-slate-300 focus:outline-none focus:border-blue-450 focus:ring-2 focus:ring-blue-100/50 transition-all"
+          />
+        </div>
+        <div className="relative flex items-center">
+          <span className="absolute left-2 text-[9px] text-slate-400 font-mono select-none">Max</span>
+          <input
+            type="number"
+            step={step || "any"}
+            placeholder="Max"
+            value={getFilterValue(filters, maxKey)}
+            onChange={(e) => handleChange(maxKey, e.target.value)}
+            className="w-full bg-white border border-slate-200 rounded-lg pl-8 pr-2 py-1 text-xs text-slate-750 font-mono placeholder-slate-300 focus:outline-none focus:border-blue-450 focus:ring-2 focus:ring-blue-100/50 transition-all"
+          />
+        </div>
       </div>
     </div>
   );
