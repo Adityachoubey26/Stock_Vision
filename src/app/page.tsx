@@ -61,7 +61,7 @@ export default function LandingPage() {
   // Live Simulation for ticker and widget data
   useEffect(() => {
     const timer = setInterval(() => {
-      // Randomly fluctuation a stock price in the ticker
+      // Randomly fluctuate a stock price in the ticker
       setTickerData((prev) =>
         prev.map((item) => {
           const isFlipped = Math.random() > 0.7;
@@ -112,43 +112,54 @@ export default function LandingPage() {
   }, [activeTab]);
 
   return (
-    <div className="min-h-screen bg-[#070b13] text-slate-700 flex flex-col selection:bg-blue-600/30 overflow-x-hidden">
+    <div className="min-h-screen bg-[#030712] text-[#94a3b8] flex flex-col selection:bg-indigo-550/30 overflow-x-hidden relative font-sans">
       
-      {/* Background Glowing Orbs */}
-      <div className="absolute top-[-20%] left-[-10%] w-[600px] h-[600px] bg-blue-500/10 rounded-full blur-[120px] pointer-events-none z-0" />
-      <div className="absolute top-[40%] right-[-10%] w-[500px] h-[500px] bg-emerald-500/5 rounded-full blur-[100px] pointer-events-none z-0" />
+      {/* Subtle Dot Grid Background Pattern */}
+      <div 
+        className="absolute inset-0 pointer-events-none opacity-[0.12] z-0" 
+        style={{
+          backgroundImage: "radial-gradient(rgba(255, 255, 255, 0.15) 1px, transparent 1px)",
+          backgroundSize: "24px 24px"
+        }}
+      />
+
+      {/* Modern Mesh Glowing Orbs */}
+      <div className="absolute top-[-10%] left-[-5%] w-[600px] h-[600px] bg-indigo-500/10 rounded-full blur-[140px] pointer-events-none z-0" />
+      <div className="absolute top-[20%] right-[-10%] w-[550px] h-[550px] bg-cyan-500/5 rounded-full blur-[140px] pointer-events-none z-0" />
+      <div className="absolute bottom-[10%] left-[10%] w-[650px] h-[650px] bg-violet-600/5 rounded-full blur-[160px] pointer-events-none z-0" />
 
       {/* ── Header / Navbar ──────────────────────────────────────────────── */}
-      <header className="sticky top-0 z-40 w-full bg-[#0c101b]/80 backdrop-blur-md border-b border-slate-800">
+      <header className="sticky top-0 z-40 w-full bg-[#080d1a]/70 backdrop-blur-xl border-b border-[#1e293b]/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="p-1.5 bg-emerald-500/10 text-emerald-400 rounded border border-emerald-500/20">
-              <Hexagon className="w-6 h-6 fill-emerald-500/10" />
+          <div className="flex items-center gap-3">
+            <div className="p-1.5 bg-gradient-to-br from-indigo-500/20 to-blue-600/20 text-indigo-400 rounded-lg border border-indigo-500/30 shadow-[0_0_15px_rgba(99,102,241,0.15)]">
+              <Hexagon className="w-5.5 h-5.5 fill-indigo-500/15" />
             </div>
             <div className="flex flex-col leading-none">
-              <span className="font-extrabold text-[14px] sm:text-[16px] tracking-wider text-slate-900 uppercase font-mono">
+              <span className="font-black text-[15px] sm:text-[17px] tracking-widest text-[#ffffff] uppercase font-mono bg-clip-text bg-gradient-to-r from-white via-slate-100 to-slate-300">
                 Zetheta Alpha
               </span>
-              <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">
+              <span className="text-[8px] font-extrabold text-slate-500 uppercase tracking-widest mt-0.5 font-mono">
                 Institutional Terminal
               </span>
             </div>
           </div>
 
           <div className="flex items-center gap-4">
-            <div className="hidden xs:flex items-center gap-2 px-3 py-1 bg-slate-800/40 border border-slate-700/50 rounded-full">
+            <div className="hidden xs:flex items-center gap-2 px-3 py-1 bg-[#0f172a]/80 border border-slate-800/80 rounded-full">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
               </span>
-              <span className="text-[10px] font-bold tracking-wider text-emerald-400 uppercase font-mono">
-                Feed: Active
+              <span className="text-[9px] font-bold tracking-wider text-emerald-400 uppercase font-mono">
+                Live Data Feed
               </span>
             </div>
             
             <Link
               href="/dashboard"
-              className="relative inline-flex items-center gap-1.5 px-4 py-1.5 bg-blue-600 hover:bg-blue-700 text-[#ffffff] text-xs font-bold rounded-lg border border-blue-500 shadow-[0_0_15px_rgba(37,99,235,0.25)] hover:shadow-[0_0_20px_rgba(37,99,235,0.45)] transition-all active:scale-[0.98]"
+              className="relative inline-flex items-center gap-1.5 px-4 py-1.5 bg-gradient-to-r from-indigo-550 to-indigo-650 hover:from-indigo-600 hover:to-indigo-700 text-[#ffffff] text-xs font-bold rounded-lg shadow-[0_0_15px_rgba(99,102,241,0.2)] hover:shadow-[0_0_22px_rgba(99,102,241,0.4)] transition-all active:scale-[0.98] border border-indigo-500/30"
+              style={{ backgroundColor: "#4f46e5" }}
             >
               Launch Terminal
               <ArrowRight className="w-3.5 h-3.5" />
@@ -158,23 +169,22 @@ export default function LandingPage() {
       </header>
 
       {/* ── Live Scrolling Ticker Ribbon ─────────────────────────────────── */}
-      <div className="w-full bg-[#0c101b] border-b border-slate-800/80 py-2.5 overflow-hidden relative z-10 select-none">
-        <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#070b13] to-transparent z-15 pointer-events-none" />
-        <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[#070b13] to-transparent z-15 pointer-events-none" />
+      <div className="w-full bg-[#080c16]/90 border-b border-[#1e293b]/40 py-2.5 overflow-hidden relative z-10 select-none">
+        <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#030712] to-transparent z-15 pointer-events-none" />
+        <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[#030712] to-transparent z-15 pointer-events-none" />
         
-        <div className="flex whitespace-nowrap animate-[marquee_25s_linear_infinite] hover:[animation-play-state:paused] gap-8">
-          {/* Double content to ensure infinite scroll loop */}
+        <div className="flex whitespace-nowrap animate-[marquee_28s_linear_infinite] hover:[animation-play-state:paused] gap-8">
           {[...tickerData, ...tickerData].map((item, idx) => {
             const isUp = item.change >= 0;
             return (
               <div
                 key={idx}
-                className="inline-flex items-center gap-2.5 border border-slate-800 bg-slate-900/40 rounded-lg px-3 py-1 text-slate-600 transition-colors hover:border-blue-500/30"
+                className="inline-flex items-center gap-2.5 border border-[#1e293b]/60 bg-[#0f172a]/30 rounded-lg px-3 py-1 text-slate-300 transition-colors hover:border-indigo-500/30"
               >
-                <span className="text-[10px] font-bold font-mono tracking-wider">
+                <span className="text-[10px] font-bold font-mono tracking-wider text-slate-400">
                   {item.symbol}
                 </span>
-                <span className="text-xs font-bold font-mono">
+                <span className="text-xs font-bold font-mono text-[#ffffff]">
                   {item.price.toLocaleString("en-IN", { minimumFractionDigits: 2 })}
                 </span>
                 <span
@@ -199,21 +209,21 @@ export default function LandingPage() {
       </div>
 
       {/* ── Hero Section ─────────────────────────────────────────────────── */}
-      <section className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-20 text-center z-10">
+      <section className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-20 text-center z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           className="space-y-6"
         >
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-500/10 border border-blue-500/25 rounded-full text-blue-400 text-xs font-bold tracking-wide uppercase">
-            <Sparkles className="w-3.5 h-3.5" />
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-indigo-500/10 border border-indigo-500/25 rounded-full text-indigo-400 text-xs font-bold tracking-wide uppercase font-mono">
+            <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
             Institutional Grade Stock Analytics
           </div>
 
-          <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-slate-900 max-w-4xl mx-auto leading-[1.15]">
+          <h1 className="text-4xl sm:text-6xl font-black tracking-tight text-[#ffffff] max-w-4xl mx-auto leading-[1.15] bg-clip-text bg-gradient-to-b from-[#ffffff] via-[#e2e8f0] to-[#94a3b8]">
             Screen 5000+ Stocks in{" "}
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-300 to-emerald-400">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-teal-300 to-emerald-400 drop-shadow-[0_0_15px_rgba(34,211,238,0.25)]">
               Real-Time
             </span>
           </h1>
@@ -225,14 +235,15 @@ export default function LandingPage() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
             <Link
               href="/dashboard"
-              className="w-full sm:w-auto px-8 py-3 bg-blue-600 hover:bg-blue-700 text-[#ffffff] font-bold rounded-xl border border-blue-500 shadow-lg hover:shadow-blue-500/30 transition-all flex items-center justify-center gap-2 group cursor-pointer"
+              className="w-full sm:w-auto px-8 py-3.5 bg-gradient-to-r from-indigo-550 to-indigo-650 hover:from-indigo-600 hover:to-indigo-700 text-[#ffffff] font-bold rounded-xl border border-indigo-500/30 shadow-lg hover:shadow-indigo-500/30 transition-all flex items-center justify-center gap-2 group cursor-pointer"
+              style={{ backgroundColor: "#4f46e5" }}
             >
               Launch Stock Terminal
               <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
             </Link>
             <Link
               href="/screener"
-              className="w-full sm:w-auto px-8 py-3 bg-slate-900/60 hover:bg-slate-800/80 text-slate-700 hover:text-[#ffffff] font-bold rounded-xl border border-slate-800 transition-all flex items-center justify-center gap-2 cursor-pointer"
+              className="w-full sm:w-auto px-8 py-3.5 bg-[#0f172a]/60 hover:bg-[#1e293b]/60 text-slate-200 hover:text-[#ffffff] font-bold rounded-xl border border-slate-800 transition-all flex items-center justify-center gap-2 cursor-pointer backdrop-blur-md"
             >
               <SlidersHorizontal className="w-4 h-4 text-slate-400" />
               Explore Live Screener
@@ -248,30 +259,31 @@ export default function LandingPage() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
-          className="relative rounded-2xl border border-slate-800 bg-[#0c101b]/70 backdrop-blur-md shadow-2xl p-4 sm:p-6 overflow-hidden"
+          className="relative rounded-2xl border border-slate-800/80 bg-[#070c18]/80 backdrop-blur-xl shadow-2xl p-4 sm:p-6 overflow-hidden"
         >
           {/* Header Panel Controls */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 mb-4 border-b border-slate-800 gap-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 mb-4 border-b border-slate-800/80 gap-4">
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-full bg-rose-500" />
-              <div className="w-3 h-3 rounded-full bg-amber-500" />
-              <div className="w-3 h-3 rounded-full bg-emerald-500" />
-              <span className="text-[11px] font-bold font-mono text-slate-500 ml-2 uppercase tracking-widest">
+              <div className="w-2.5 h-2.5 rounded-full bg-rose-500" />
+              <div className="w-2.5 h-2.5 rounded-full bg-amber-500" />
+              <div className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
+              <span className="text-[10px] font-bold font-mono text-slate-500 ml-2 uppercase tracking-widest">
                 Interactive_Screener_Widget
               </span>
             </div>
 
             {/* Selector tabs */}
-            <div className="flex bg-slate-900/80 p-1 border border-slate-850 rounded-lg self-start sm:self-auto">
+            <div className="flex bg-[#0f172a]/90 p-1 border border-slate-800/80 rounded-lg self-start sm:self-auto">
               {(["gainers", "volume", "beta"] as const).map((tab) => (
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
-                  className={`px-3 py-1.5 rounded-md text-[10px] sm:text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                  className={`px-3.5 py-1.5 rounded-md text-[10px] sm:text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
                     activeTab === tab
-                      ? "bg-blue-600 text-[#ffffff] shadow-sm"
+                      ? "bg-gradient-to-r from-indigo-500 to-indigo-650 text-[#ffffff] shadow-md border border-indigo-400/20"
                       : "text-slate-400 hover:text-slate-200"
                   }`}
+                  style={activeTab === tab ? { backgroundColor: "#4f46e5" } : undefined}
                 >
                   {tab === "gainers" ? "Top Gainers" : tab === "volume" ? "High Volume" : "High Beta"}
                 </button>
@@ -283,16 +295,16 @@ export default function LandingPage() {
           <div className="overflow-x-auto scrollbar-thin">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="border-b border-slate-850 text-[10px] font-bold text-slate-500 uppercase tracking-widest">
-                  <th className="py-3 px-4">Ticker</th>
-                  <th className="py-3 px-4">Company Name</th>
-                  <th className="py-3 px-4 text-right">LTP (₹)</th>
-                  <th className="py-3 px-4 text-right">Change (%)</th>
-                  <th className="py-3 px-4 text-right">24H Volume</th>
-                  <th className="py-3 px-4 text-center">Action</th>
+                <tr className="border-b border-slate-800/85 text-[10px] font-bold text-slate-500 uppercase tracking-widest">
+                  <th className="py-3.5 px-4 font-mono">Ticker</th>
+                  <th className="py-3.5 px-4 font-mono">Company Name</th>
+                  <th className="py-3.5 px-4 text-right font-mono">LTP (₹)</th>
+                  <th className="py-3.5 px-4 text-right font-mono">Change (%)</th>
+                  <th className="py-3.5 px-4 text-right font-mono">24H Volume</th>
+                  <th className="py-3.5 px-4 text-center font-mono">Action</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-850 text-xs sm:text-sm">
+              <tbody className="divide-y divide-slate-800/50 text-xs sm:text-sm">
                 <AnimatePresence mode="wait">
                   {previewStocks.map((stock) => {
                     const flash = priceFlash[stock.symbol];
@@ -305,22 +317,22 @@ export default function LandingPage() {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.2 }}
-                        className={`hover:bg-slate-900/30 transition-colors ${
+                        className={`hover:bg-slate-900/20 transition-colors ${
                           flash === "up" ? "bg-emerald-500/10" : flash === "down" ? "bg-rose-500/10" : ""
                         }`}
                       >
-                        <td className="py-3.5 px-4 font-bold font-mono tracking-wider text-slate-800">
+                        <td className="py-3.5 px-4 font-bold font-mono tracking-wider text-indigo-400">
                           {stock.symbol}
                         </td>
-                        <td className="py-3.5 px-4 text-slate-450 font-medium">
+                        <td className="py-3.5 px-4 text-slate-350 font-medium">
                           {stock.name}
                         </td>
-                        <td className="py-3.5 px-4 text-right font-mono text-slate-900 font-semibold">
+                        <td className="py-3.5 px-4 text-right font-mono text-[#ffffff] font-semibold">
                           ₹{stock.price.toLocaleString("en-IN", { minimumFractionDigits: 2 })}
                         </td>
                         <td className="py-3.5 px-4 text-right">
                           <span
-                            className={`inline-flex items-center px-2 py-0.5 rounded font-mono text-xs font-bold ${
+                            className={`inline-flex items-center px-2.5 py-0.5 rounded font-mono text-xs font-bold ${
                               isUp
                                 ? "text-emerald-400 bg-emerald-500/10 border border-emerald-500/20"
                                 : "text-rose-400 bg-rose-500/10 border border-rose-500/20"
@@ -330,13 +342,13 @@ export default function LandingPage() {
                             {stock.change.toFixed(2)}%
                           </span>
                         </td>
-                        <td className="py-3.5 px-4 text-right font-mono text-slate-700 font-medium">
+                        <td className="py-3.5 px-4 text-right font-mono text-slate-300 font-medium">
                           {stock.volume}
                         </td>
                         <td className="py-3.5 px-4 text-center">
                           <Link
                             href={`/screener`}
-                            className="inline-flex items-center gap-1 text-[10px] font-bold text-blue-400 hover:text-blue-300 uppercase tracking-wider"
+                            className="inline-flex items-center gap-1 text-[10px] font-bold text-indigo-400 hover:text-indigo-300 uppercase tracking-wider font-mono"
                           >
                             Trade
                             <ChevronRight className="w-3.5 h-3.5" />
@@ -350,9 +362,9 @@ export default function LandingPage() {
             </table>
           </div>
 
-          <div className="mt-4 pt-3 border-t border-slate-850 flex justify-between items-center text-[10px] text-slate-500 font-medium uppercase font-mono">
+          <div className="mt-4 pt-3 border-t border-slate-800/80 flex justify-between items-center text-[10px] text-slate-500 font-medium uppercase font-mono">
             <span>● Streaming Live via Simulated feeds</span>
-            <Link href="/screener" className="text-blue-400 hover:underline">
+            <Link href="/screener" className="text-indigo-400 hover:underline">
               View all 5,000+ stocks →
             </Link>
           </div>
@@ -362,7 +374,7 @@ export default function LandingPage() {
       {/* ── Features Showcase ─────────────────────────────────────────────── */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-28 z-10">
         <div className="text-center space-y-4 mb-16">
-          <h2 className="text-2xl sm:text-4xl font-extrabold text-slate-900">
+          <h2 className="text-2xl sm:text-4xl font-black text-[#ffffff] bg-clip-text bg-gradient-to-b from-[#ffffff] via-[#e2e8f0] to-[#94a3b8]">
             Engineered for Modern Traders
           </h2>
           <p className="text-slate-400 max-w-xl mx-auto text-sm sm:text-base">
@@ -409,13 +421,13 @@ export default function LandingPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: index * 0.1 }}
-              className="bg-[#0c101b] border border-slate-800 p-6 rounded-xl hover:border-blue-500/30 transition-all flex flex-col justify-between group"
+              className="bg-[#070c18]/80 border border-slate-800/80 p-6 rounded-xl hover:border-indigo-500/30 hover:shadow-[0_0_30px_rgba(99,102,241,0.06)] transition-all flex flex-col justify-between group"
             >
               <div className="space-y-4">
-                <div className="p-2.5 bg-blue-500/10 text-blue-400 rounded-lg border border-blue-500/20 w-fit group-hover:scale-105 transition-transform">
-                  <feat.icon className="w-5 h-5" />
+                <div className="p-2.5 bg-indigo-500/10 text-indigo-400 rounded-lg border border-indigo-500/20 w-fit group-hover:scale-105 transition-transform">
+                  <feat.icon className="w-5 h-5 text-indigo-400" />
                 </div>
-                <h3 className="text-base font-bold text-slate-900 group-hover:text-blue-300 transition-colors">
+                <h3 className="text-base font-bold text-[#ffffff] group-hover:text-indigo-300 transition-colors">
                   {feat.title}
                 </h3>
                 <p className="text-slate-400 text-xs sm:text-sm leading-relaxed">
@@ -428,9 +440,9 @@ export default function LandingPage() {
       </section>
 
       {/* ── Call To Action Footer ────────────────────────────────────────── */}
-      <section className="bg-[#0c101b] border-t border-slate-800 py-16 text-center relative z-10">
+      <section className="bg-[#060a13] border-t border-slate-800/70 py-20 text-center relative z-10">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-          <h2 className="text-3xl font-extrabold text-slate-900">
+          <h2 className="text-3xl font-black text-[#ffffff] bg-clip-text bg-gradient-to-b from-[#ffffff] via-[#e2e8f0] to-[#94a3b8]">
             Ready to track the market like a pro?
           </h2>
           <p className="text-slate-400 max-w-lg mx-auto text-sm">
@@ -439,14 +451,15 @@ export default function LandingPage() {
           <div className="pt-2">
             <Link
               href="/dashboard"
-              className="inline-flex items-center gap-2 px-8 py-3.5 bg-blue-600 hover:bg-blue-700 text-[#ffffff] font-bold rounded-xl border border-blue-500 shadow-lg hover:shadow-blue-500/30 transition-all active:scale-[0.98] cursor-pointer"
+              className="inline-flex items-center gap-2 px-8 py-3.5 bg-gradient-to-r from-indigo-550 to-indigo-650 hover:from-indigo-600 hover:to-indigo-700 text-[#ffffff] font-bold rounded-xl border border-indigo-500/30 shadow-lg hover:shadow-indigo-500/30 transition-all active:scale-[0.98] cursor-pointer"
+              style={{ backgroundColor: "#4f46e5" }}
             >
               Access Zetheta Alpha Terminal
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
           
-          <div className="text-[10px] text-slate-500 uppercase tracking-widest pt-8">
+          <div className="text-[10px] text-slate-600 uppercase tracking-widest pt-8 font-mono">
             &copy; {new Date().getFullYear()} Zetheta Alpha. All Rights Reserved. Built with Next.js & Framer Motion.
           </div>
         </div>
