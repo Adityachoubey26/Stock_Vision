@@ -3,7 +3,6 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Providers from "@/components/providers";
 import React from "react";
-import { TerminalLayout } from "@/components/terminal-layout";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -26,9 +25,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.variable}>
       <body className="min-h-screen flex flex-col bg-slate-50 text-slate-900 antialiased font-sans">
-        <Providers>
-          <TerminalLayout>{children}</TerminalLayout>
-        </Providers>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
